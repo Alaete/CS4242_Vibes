@@ -1,0 +1,11 @@
+asgiref==3.2.7
+click==7.1.1
+Django==3.0.5
+django-widget-tweaks==1.4.8
+joblib==0.14.1
+Markdown==3.2.1
+nltk==3.5
+pytz==2019.3
+regex==2020.4.4
+sqlparse==0.3.1
+tqdm==4.45.0

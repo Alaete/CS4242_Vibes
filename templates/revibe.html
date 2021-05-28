@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% load static humanize gravatar %}
+
+{% block title %}
+    {{ block.super }} | Revibe
+{% endblock %}
+
+{% block breadcrumb %}
+    <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'vibe' vibe.pk %}">Vibe</a></li>
+    <li class="breadcrumb-item active">Revibe</li>
+{% endblock %}
+
+{% block content %}
+    <div class="card mb-2 border-dark">
+      <div class="card-header text-white bg-dark py-2 px-3">{{ revibe.title }}</div>
+      <div class="card-body p-3">
+        <div class="row">
+          <div class="col-2">
+            <img src="{{ vibe.created_by|gravatar }}" alt="{{ vibe.created_by.username }}" class="w-100 rounded">
+          </div>
+          <div class="col-10">
+            <div class="row mb-3">
+              <div class="col-6">
+                <strong class="text-muted">{{ revibe.created_by.username }}</strong>
+              </div>
+              <div class="col-6 text-right">
+                <small class="text-muted">Created: {{ revibe.created_at }}</small>
+                {% if revibe.edited_at %}
+                 <small class="text-muted"> | Edited: {{ revibe.edited_at|naturaltime }}</small>
+                  {% endif %}
+              </div>
+            </div>
+            {{ revibe.get_body_as_markdown }}
+              <div class="mt-3">
+              {% if revibe.created_by == user %}
+                <a href="{% url 'edit_revibe' vibe.pk revibe.pk %}" class="btn btn-primary btn-sm" role="button">Edit</a>
+              {% endif %}
+                  {% if revibe.sentiment == 'Positive' %}
+                  <button type="button" class="btn btn-success btn-sm">{{ revibe.sentiment }}</button>
+                  {% elif revibe.sentiment == 'Negative' %}
+                  <button type="button" class="btn btn-danger btn-sm">{{ revibe.sentiment }}</button>
+                  {% elif revibe.sentiment == 'Neutral' %}
+                  <button type="button" class="btn btn-warning btn-sm">{{ revibe.sentiment }}</button>
+                  {% endif %}
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mb-4">
+    <a href="{% url 'vibe_revibes' vibe.pk %}" class="btn btn-primary">View Vibe Thread</a>
+  </div>
+{% endblock %}
